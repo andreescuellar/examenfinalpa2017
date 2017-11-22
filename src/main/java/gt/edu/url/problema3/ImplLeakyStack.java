@@ -1,8 +1,17 @@
 package gt.edu.url.problema3;
+import java.util.*;
 
 
 public class ImplLeakyStack <E> implements LeakyStack<E> {
-	
+	private Stack undoStack;
+    private Stack redoStack;
+    
+    public ImplLeakyStack() {
+        undoStack = new Stack();
+        redoStack = new Stack();
+    }
+
+    
     private static class Node<E>{
             private E element;
         private Node<E> next;
@@ -90,7 +99,24 @@ public class ImplLeakyStack <E> implements LeakyStack<E> {
 
 	@Override
 	public E undo() {
-		// TODO Auto-generated method stub
-		return null;
+		if (!canUndo()) {
+            throw new IllegalStateException();
+        }
+        Object action = undoStack.pop();
+        if (action.equals("push")) {
+            E value = super.pop();
+            redoStack.push(value);
+            redoStack.push("push");
+        } else {
+            E value = (E) undoStack.pop();         
+            super.push(value);
+            redoStack.push("pop");
+        }
+        
 	}
+	
+	public boolean canUndo() {
+        return !undoStack.isEmpty();
+    }
+
 }
