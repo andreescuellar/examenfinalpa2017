@@ -80,12 +80,16 @@ public class ImplLeakyStack <E> implements LeakyStack<E> {
 	
 	@Override
 	public E saveHistory(E e) {
+		
+		do {
+		String history;
 		if(isEmpty()) return null;
 		Node<E> head = tail.getNext();
 		if(head == tail) tail = null;
 		else tail.setNext(head.getNext());
-		String history = (String) head.getElement() + "\n";
+		history = head.getElement() + "\n";
 		return null;
+		}while (size!=0);
 	}
 
 	@Override
@@ -97,9 +101,15 @@ public class ImplLeakyStack <E> implements LeakyStack<E> {
 	@Override
 	public E undo() {
 		
-		
+		if(isEmpty()) return null;
+		Node<E> head = tail.getNext();
+		Node<E> history;
+		if(head == tail) tail = null;
+		else tail.setNext(history);
+		size++;
 		return null;
 		
+
 	}
 	
 
