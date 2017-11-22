@@ -3,13 +3,6 @@ import java.util.*;
 
 
 public class ImplLeakyStack <E> implements LeakyStack<E> {
-	private Stack undoStack;
-    private Stack redoStack;
-    
-    public ImplLeakyStack() {
-        undoStack = new Stack();
-        redoStack = new Stack();
-    }
 
     
     private static class Node<E>{
@@ -87,36 +80,28 @@ public class ImplLeakyStack <E> implements LeakyStack<E> {
 	
 	@Override
 	public E saveHistory(E e) {
-		// TODO Auto-generated method stub
+		if(isEmpty()) return null;
+		Node<E> head = tail.getNext();
+		if(head == tail) tail = null;
+		else tail.setNext(head.getNext());
+		String history = (String) head.getElement() + "\n";
 		return null;
 	}
 
 	@Override
 	public E actual() {
-		// TODO Auto-generated method stub
+		Node<E> actual = tail.getNext();
 		return null;
 	}
 
 	@Override
 	public E undo() {
-		if (!canUndo()) {
-            throw new IllegalStateException();
-        }
-        Object action = undoStack.pop();
-        if (action.equals("push")) {
-            E value = super.pop();
-            redoStack.push(value);
-            redoStack.push("push");
-        } else {
-            E value = (E) undoStack.pop();         
-            super.push(value);
-            redoStack.push("pop");
-        }
-        
+		
+		
+		return null;
+		
 	}
 	
-	public boolean canUndo() {
-        return !undoStack.isEmpty();
-    }
+
 
 }
